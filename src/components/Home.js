@@ -4,6 +4,7 @@ import ImgSlider from './ImgSlider';
 import Viewers from './Viewers';
 import Movies from './Movies';
 import db from '../firebase';
+import requests from '../requests'
 
 
 
@@ -17,7 +18,8 @@ function Home(){
             <Container>
                 <ImgSlider/>
                 <Viewers/>
-                <Movies/>
+                <Movies title="Originals" fetchUrl={requests.fetchNetflixOriginals}/>
+                <Movies title="Trending" fetchUrl={requests.fetchTrending}/>
             </Container>
         )
 }

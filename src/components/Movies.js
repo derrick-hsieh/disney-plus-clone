@@ -1,23 +1,30 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
+// import axios from '../axios'
+// import axios from 'axios'
+import instance from '../adaxios';
 
-function Movies() {
+function Movies({title, fetchUrl}) {
+    const base_url = "https://image.tmdb.org/t/p/original/"
+    const [movies, getMovies] = useState([])
+    useEffect(()=>{
+        async function fetchData(){
+            const request = await instance.get(fetchUrl);
+            getMovies(request.data.results)
+            return request
+        }
+        fetchData();
+
+    },[fetchUrl])
     return (
         <Contaienr>
-            <h4>Recommended</h4>
+            <h4>{title}</h4>
             <Content>
-                <Wrap>
-                    <img src="https://wallpaper.dog/large/20509438.jpg"></img>
-                </Wrap>
-                <Wrap>
-                    <img src="https://wallpaper.dog/large/20509438.jpg"></img>
-                </Wrap>
-                <Wrap>
-                    <img src="https://wallpaper.dog/large/20509438.jpg"></img>
-                </Wrap>
-                <Wrap>
-                    <img src="https://wallpaper.dog/large/20509438.jpg"></img>
-                </Wrap>
+                {movies.map(movie=>(
+                    <Wrap key={movie.id}>
+                         <img  src={`${base_url}${movie.poster_path}`} alt={movie.name}/>
+                    </Wrap>
+                ))}
             </Content>
         </Contaienr>
     )
