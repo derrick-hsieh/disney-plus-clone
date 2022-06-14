@@ -13,12 +13,14 @@ import {
 } from "react-router-dom"
 import Detail from './components/Detail';
 import Login from './components/Login';
+import Navbar from './components/Navbar';
 
 function App(props) {
   return (
     <div className="App">
       <Router>
-        <Header/>
+        <Navbar/>
+        {/* <Header/> */}
         <Routes>
           <Route  exact path="/login" element ={  <Login/>}/>
           <Route  exact path="/detail/:id/:title/:path" element ={ <Detail/>}/>

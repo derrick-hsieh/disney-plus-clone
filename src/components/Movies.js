@@ -21,7 +21,7 @@ function Movies({title, fetchUrl}) {
             <h1>{title}</h1>
             <Content>
                 {movies.map(movie=>(
-                    <Link key={movie.id}  to={`/detail/${movie.id}/${title}${movie.poster_path}`}>
+                    <Link  key={movie.id}  to={`/detail/${movie.id}/${title}${movie.poster_path}`}>
                     <Wrap key={movie.id}>
                          <img  src={`${base_url}${movie.poster_path}`} alt={movie.name}/>
                     </Wrap>
@@ -45,7 +45,7 @@ const Content = styled.div`
     grid-template-columns: repeat(5,minmax(0,1fr));
 `
 const Wrap = styled.div`
-height:100%;
+height:90%;
 border-radius:10px;
 cursor:pointer;
 box-shadow: 10px 10px 20px rgb(0 0 0 / 69%);
