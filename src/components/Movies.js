@@ -15,12 +15,10 @@ function Movies({title, fetchUrl}) {
             return request
         }
         fetchData();
-        
-
     },[fetchUrl])
     return (
         <Contaienr>
-            <h4>{title}</h4>
+            <h1>{title}</h1>
             <Content>
                 {movies.map(movie=>(
                     <Link key={movie.id}  to={`/detail/${movie.id}/${title}${movie.poster_path}`}>
@@ -37,7 +35,9 @@ function Movies({title, fetchUrl}) {
 
 export default Movies
 const Contaienr = styled.div`
-
+    h1{
+        margin:2vh;
+    }
 `
 const Content = styled.div`
     display:grid;

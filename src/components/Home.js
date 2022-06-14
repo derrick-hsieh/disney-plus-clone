@@ -9,17 +9,19 @@ import requests from '../requests'
 
 
 function Home(){
-    // useEffect(()=>{
-    //     db.collection("movies").onSnapshot((snapshot)=>{
-    //         console.log(snapshot)
-    //     })
-    // }, []);
+
         return (
             <Container>
                 <ImgSlider/>
                 <Viewers/>
                 <Movies title="Originals" fetchUrl={requests.fetchNetflixOriginals}/>
                 <Movies title="Trending" fetchUrl={requests.fetchTrending}/>
+                <Movies title="Top Rated" fetchUrl={requests.fetchTopRated}/>
+                <Movies title="Action Movies" fetchUrl={requests.fetchActionMovies}/>
+                <Movies title="Comedy Movies" fetchUrl={requests.fetchComedyMovies}/>
+                <Movies title="Romance Movies" fetchUrl={requests.fetchRomanceMovies}/>
+                <Movies title="Horror Movies" fetchUrl={requests.fetchHorrorMovies}/>
+                <Movies title="Documentaries" fetchUrl={requests.fetchDocumentaries}/>
             </Container>
         )
 }

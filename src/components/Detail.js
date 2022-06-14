@@ -22,19 +22,47 @@ function Detail({ }) {
                 let movieData = request.data.results.filter((movie => movie.id == id))
                 getMovies(movieData[0])
                 return request
+            }else if (title === 'Top Rated') {
+                const request = await instance.get(requests.fetchTopRated);
+                let movieData = request.data.results.filter((movie => movie.id == id))
+                getMovies(movieData[0])
+                return request
+            }else if (title === 'Action Movies') {
+                const request = await instance.get(requests.fetchActionMovies);
+                let movieData = request.data.results.filter((movie => movie.id == id))
+                getMovies(movieData[0])
+                return request
+            }else if (title === 'Comedy Movies') {
+                const request = await instance.get(requests.fetchComedyMovies);
+                let movieData = request.data.results.filter((movie => movie.id == id))
+                getMovies(movieData[0])
+                return request
+            }else if (title === 'Horror Movies') {
+                const request = await instance.get(requests.fetchHorrorMovies);
+                let movieData = request.data.results.filter((movie => movie.id == id))
+                getMovies(movieData[0])
+                return request
+            }else if (title === 'Romance Movies') {
+                const request = await instance.get(requests.fetchRomanceMovies);
+                let movieData = request.data.results.filter((movie => movie.id == id))
+                getMovies(movieData[0])
+                return request
+            }else if (title === 'Documentaries') {
+                const request = await instance.get(requests.fetchDocumentaries);
+                let movieData = request.data.results.filter((movie => movie.id == id))
+                getMovies(movieData[0])
+                return request
             }
             
         }
         fetchData();
-        console.log(title)
+        // console.log(title)
 
 
 
     })
 
-    // movies.map((movie)=>{
-    //     return {id: id, overview: movie.overview}
-    // })
+ 
 
     return (
         <Container>
