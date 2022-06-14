@@ -14,14 +14,14 @@ import {
 import Detail from './components/Detail';
 import Login from './components/Login';
 
-function App() {
+function App(props) {
   return (
     <div className="App">
       <Router>
         <Header/>
         <Routes>
           <Route  exact path="/login" element ={  <Login/>}/>
-          <Route exact path="/detail" element ={ <Detail/>}/>
+          <Route  exact path="/detail/:id/:title/:path" element ={ <Detail/>}/>
           <Route  exact path="/" element ={  <Home/>}/>
         </Routes>
       </Router>

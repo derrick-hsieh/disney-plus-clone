@@ -3,6 +3,7 @@ import styled from 'styled-components';
 // import axios from '../axios'
 // import axios from 'axios'
 import instance from '../adaxios';
+import { Link } from 'react-router-dom';
 
 function Movies({title, fetchUrl}) {
     const base_url = "https://image.tmdb.org/t/p/original/"
@@ -14,6 +15,7 @@ function Movies({title, fetchUrl}) {
             return request
         }
         fetchData();
+        
 
     },[fetchUrl])
     return (
@@ -21,9 +23,12 @@ function Movies({title, fetchUrl}) {
             <h4>{title}</h4>
             <Content>
                 {movies.map(movie=>(
+                    <Link key={movie.id}  to={`/detail/${movie.id}/${title}${movie.poster_path}`}>
                     <Wrap key={movie.id}>
                          <img  src={`${base_url}${movie.poster_path}`} alt={movie.name}/>
                     </Wrap>
+                    </Link>
+                    
                 ))}
             </Content>
         </Contaienr>
@@ -37,10 +42,10 @@ const Contaienr = styled.div`
 const Content = styled.div`
     display:grid;
     grid-gap:25px;
-    grid-template-columns: repeat(4,minmax(0,1fr));
+    grid-template-columns: repeat(5,minmax(0,1fr));
 `
 const Wrap = styled.div`
-max-height:140px;
+height:100%;
 border-radius:10px;
 cursor:pointer;
 box-shadow: 10px 10px 20px rgb(0 0 0 / 69%);

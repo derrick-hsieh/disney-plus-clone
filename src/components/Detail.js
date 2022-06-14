@@ -1,13 +1,48 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
-function Detail() {
+import { useParams } from 'react-router-dom';
+import instance from '../adaxios';
+import requests from '../requests';
+
+
+function Detail({ }) {
+    const { id, path, title } = useParams();
+
+    const base_url = "https://image.tmdb.org/t/p/original/"
+    const [movies, getMovies] = useState([])
+    useEffect(() => {
+        async function fetchData() {
+            if (title === 'Originals') {
+                const request = await instance.get(requests.fetchNetflixOriginals);
+                let movieData = request.data.results.filter((movie => movie.id == id))
+                getMovies(movieData[0])
+                return request
+            } else if (title === 'Trending') {
+                const request = await instance.get(requests.fetchTrending);
+                let movieData = request.data.results.filter((movie => movie.id == id))
+                getMovies(movieData[0])
+                return request
+            }
+            
+        }
+        fetchData();
+        console.log(title)
+
+
+
+    })
+
+    // movies.map((movie)=>{
+    //     return {id: id, overview: movie.overview}
+    // })
+
     return (
         <Container>
             <Background>
-                <img src="https://wallpaper.dog/large/20509438.jpg" />
+                <img src={`${base_url}${path}`} />
             </Background>
             <ImageTitle>
-                <h1>Formula 1</h1>
+                <h1>{movies.name || movies.original_title}</h1>
             </ImageTitle>
             <Controls>
                 <PlayButton>
@@ -25,11 +60,8 @@ function Detail() {
                     <img src="/images/group-icon.png" />
                 </GroupWatchButton>
             </Controls>
-            <SubTitle>
-                2022/Sport/Formula 1
-            </SubTitle>
             <Description>
-                Formula 1® racing began in 1950 and is the world’s most prestigious motor racing competition, as well as the world’s most popular annual sporting series: The 2019 FIA Formula One World Championship™ runs from March to December and spans 21 races in 21 countries across four continents. Formula One World Championship Limited is part of Formula 1® and holds the exclusive commercial rights to the FIA Formula One World Championship™.
+                {movies.overview}
             </Description>
         </Container>
     )
@@ -48,7 +80,7 @@ left:0;
 right:0;
 bottom:0;
 z-index:-1;
-opacity:0.8;
+opacity:0.7;
 img{
     width:100%;
     height:100%;
@@ -56,8 +88,8 @@ img{
 }
 `
 const ImageTitle = styled.div`
-height:20vh;
- 
+    margin-top: 30vh;
+    margin-bottom: 2vh;
 `
 const Controls = styled.div`
     display:flex;
