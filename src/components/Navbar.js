@@ -33,6 +33,8 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 z-index:1;
+transition-timing-function:ease-in;
+transition:all 0.5s;
 &.nav-black{
     background:#111 !important;
 }
