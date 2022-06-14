@@ -12,7 +12,7 @@ function Home(){
 
         return (
             <Container>
-                <ImgSlider/>
+                <ImgSlider title="Originals" fetchUrl={requests.fetchNetflixOriginals}/>
                 <Viewers/>
                 <Movies title="Originals" fetchUrl={requests.fetchNetflixOriginals}/>
                 <Movies title="Trending" fetchUrl={requests.fetchTrending}/>

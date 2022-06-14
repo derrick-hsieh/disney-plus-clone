@@ -1,34 +1,52 @@
-import React, { Component } from 'react'
+import React, { Component, useState, useEffect } from 'react'
 import styled from "styled-components"
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-     function ImgSlider(){
-        let settings = {
-            dots:true,
-            infinite:true,
-            speed:500,
-            slidesToShow:1,
-            slidesToScroll:1,
-            autoPlay:true,
-        }
-    
-    
+import axios from 'axios';
+import instance from '../adaxios';
+import {Link} from 'react-router-dom';
+function ImgSlider({ fetchUrl, title }) {
 
-        return (
-            <Carousel {...settings}>
-                <Wrap>
-                    <img src="/images/slider-badging.jpg"></img>
-                </Wrap>
-                <Wrap>
-                    <img src="/images/slider-badging.jpg"></img>
-                </Wrap>
-                <Wrap>
-                    <img src="/images/slider-badging.jpg"></img>
-                </Wrap>
-            </Carousel>
-        )
-        
+
+    const base_url = "https://image.tmdb.org/t/p/original/"
+    const [movies, setMovies] = useState([])
+    useEffect(() => {
+        async function fetchData() {
+            const request = await instance.get(fetchUrl)
+            setMovies(request.data.results.slice(3,6))
+            return request
+        }
+
+        fetchData()
+        console.log(movies)
+
+    }, [])
+    let settings = {
+        dots: true,
+        infinite: true,
+        speed: 1500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+        autoplaySpeed: 5000,
+    }
+
+
+
+    return (
+        <Carousel {...settings}>
+            {movies.map(movie => (
+                <Link key={movie.id} to={`/detail/${movie.id}/${title}${movie.poster_path}`}>
+                    <Wrap>
+                        <img src={`${base_url}${movie.poster_path}`} alt={movie.name}></img>
+                    </Wrap>
+                </Link>
+               
+                ))}
+        </Carousel>
+    )
+
 }
 const Carousel = styled(Slider)`
 margin-top:20px;
@@ -50,12 +68,14 @@ li.slick-active button:before{
 `;
 const Wrap = styled.div`
 border: 4px solid transparent;
+    height:35vh;
+    width:100%;
+    box-shadow: 10px 10px 20px rgb(0 0 0 / 69%);
     img{    
     border-radius:5px;
     width:100%;
     height:100%;
-    box-shadow:rgb(0 0 0 / 69% ) 0px 25px 30px -10px,
-    box-shadow:rgb(0 0 0 / 75%) 0px 15px 20px -10px;
+    object-fit:cover;
     }
 `;
-export default  ImgSlider
+export default ImgSlider
