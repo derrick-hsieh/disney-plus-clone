@@ -5,8 +5,9 @@ import styled from 'styled-components';
 import instance from '../adaxios';
 import { Link } from 'react-router-dom';
 
+
 function Movies({title, fetchUrl}) {
-    const base_url = "https://image.tmdb.org/t/p/original/"
+    const base_url = "https://image.tmdb.org/t/p/original"
     const [movies, getMovies] = useState([])
     useEffect(()=>{
         async function fetchData(){

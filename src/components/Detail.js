@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
-import { useParams } from 'react-router-dom';
+import  { Link,useParams, useLocation, Outlet } from 'react-router-dom';
 import instance from '../adaxios';
 import requests from '../requests';
-// import Youtube from 'react-youtube'; 
+import Youtube from 'react-youtube'; 
+import movieTrailer from 'movie-trailer';
 
 
 function Detail({ }) {
@@ -11,6 +12,7 @@ function Detail({ }) {
 
     const base_url = "https://image.tmdb.org/t/p/original/"
     const [movies, getMovies] = useState([])
+    const [trailerUrl, setTrailerUrl] = useState("")
     useEffect(() => {
         async function fetchData() {
             if (title === 'Originals') {
@@ -57,11 +59,36 @@ function Detail({ }) {
             
         }
         fetchData();
-        // console.log(title)
+        console.log(title)
 
 
 
-    })
+    },[requests])
+    const handleClick=(movies)=>{
+        console.log(movies)
+        if(trailerUrl){
+            
+            setTrailerUrl('');
+        }else {
+            movieTrailer(movies?.name || "").then((url)=>{
+                console.log(url)
+                const urlParams = new URLSearchParams(new URL(url).search);
+                console.log(urlParams)
+                console.log(url)
+                setTrailerUrl(urlParams.get("v"))
+            }).catch(error => console.log(error))
+        }
+    }
+    const location = useLocation();
+    const opts= {
+        height:"390",
+        width:"100%",
+        autoplay:1,
+        playerVars:{
+            autoplay:1,
+        },
+     
+        }
 
  
 
@@ -74,14 +101,19 @@ function Detail({ }) {
                 <h1>{movies.name || movies.original_title}</h1>
             </ImageTitle>
             <Controls>
-                <PlayButton>
+                <TrailerButton onClick={()=>handleClick(movies)}>
                     <img src="/images/play-icon-black.png" />
                     <span>Trailer</span>
-                </PlayButton>
-                <TrailerButton>
-                    <img src="/images/play-icon-white.png" />
-                    <span>PLAY</span>
                 </TrailerButton>
+                <Link to={`/detail/${movies.id}/${title}${movies.poster_path}/modal`}
+                state={{background:location}}>
+                    <PlayButton  >
+                        <img src="/images/play-icon-white.png" />
+                        <span>PLAY</span>
+                    </PlayButton>
+                </Link>
+                <Outlet />
+               
                 <AddButton>
                     <span>+</span>
                 </AddButton>
@@ -91,6 +123,7 @@ function Detail({ }) {
             </Controls>
             <Description>
                 {movies.overview}
+                {trailerUrl && <Youtube videoId={trailerUrl} opts={opts}/>}
             </Description>
         </Container>
     )
@@ -124,7 +157,7 @@ const Controls = styled.div`
     display:flex;
     align-items:center;
 `
-const PlayButton = styled.button`
+const TrailerButton = styled.button`
     border-radius:4px;
     font-size:15px;
     padding: 0 24px;
@@ -140,7 +173,7 @@ const PlayButton = styled.button`
         background:rgb(198, 198, 198);
     }
 `
-const TrailerButton = styled(PlayButton)`
+const PlayButton = styled(TrailerButton)`
     background:rgba(0, 0, 0, 0.3);
     border:1px solid rgb(249, 249, 249);
     color: rgb(249, 249, 249);

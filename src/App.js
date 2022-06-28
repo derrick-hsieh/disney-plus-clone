@@ -9,24 +9,37 @@ import {
   Switch,
   Routes,
   Route,
-  Link
+  Link,
+  useLocation
 } from "react-router-dom"
 import Detail from './components/Detail';
 import Login from './components/Login';
 import Navbar from './components/Navbar';
+import PlayModal from './components/modal/playModal';
 
-function App(props) {
+
+function App() {
+  const location = useLocation();
+const background = location.state && location.state.background
   return (
     <div className="App">
-      <Router>
-        <Navbar/>
-        {/* <Header/> */}
-        <Routes>
-          <Route  exact path="/login" element ={  <Login/>}/>
-          <Route  exact path="/detail/:id/:title/:path" element ={ <Detail/>}/>
-          <Route  exact path="/" element ={  <Home/>}/>
+ 
+        {/* <Navbar/> */}
+        <Header/>
+        <Routes location = {background || location}>
+          <Route   path="/login" element ={  <Login/>}/>
+          <Route   path="/detail/:id/:title/:path" element ={ <Detail/>}>
+            <Route path="/detail/:id/:title/:path/modal" element={<PlayModal/>} />
+          </Route>
+          <Route   path="/" element ={  <Home/>}/>
         </Routes>
-      </Router>
+        {background && (
+            <Routes>
+              <Route path="/detail/:id/:title/:path/modal" element={<PlayModal/>} />
+            </Routes>
+        )}
+      
+
      
     
  
