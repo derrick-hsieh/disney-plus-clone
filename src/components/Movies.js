@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
-// import axios from '../axios'
-// import axios from 'axios'
 import instance from '../adaxios';
 import { Link } from 'react-router-dom';
+import Fade from 'react-reveal/Fade';
 
 
 function Movies({title, fetchUrl}) {
@@ -18,8 +17,12 @@ function Movies({title, fetchUrl}) {
         fetchData();
     },[fetchUrl])
     return (
+        
         <Contaienr>
+            <Fade bottom>
             <h1>{title}</h1>
+            </Fade>
+            <Fade bottom>
             <Content>
                 {movies.map(movie=>(
                     <Link  key={movie.id}  to={`/detail/${movie.id}/${title}${movie.poster_path}`}>
@@ -30,7 +33,10 @@ function Movies({title, fetchUrl}) {
                     
                 ))}
             </Content>
+            </Fade>
+            
         </Contaienr>
+       
     )
 }
 

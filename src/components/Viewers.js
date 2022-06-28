@@ -1,24 +1,37 @@
 import React from 'react'
 import styled from 'styled-components';
+import Fade from 'react-reveal/Fade';
 function Viewers() {
     return (
+       
         <Container>
+             <Fade left>
             <Wrap>
                 <img src="/images/viewers-disney.png"  alt=""/>
             </Wrap>
+            </Fade>
+            <Fade bottom>
             <Wrap>
                 <img src="/images/viewers-pixar.png"  alt=""/>
             </Wrap>
+            </Fade>
+            <Fade left>
             <Wrap>
                 <img src="/images/viewers-marvel.png"  alt=""/>
             </Wrap>
+            </Fade>
+            <Fade right>
             <Wrap>
                 <img src="/images/viewers-national.png"  alt=""/>
             </Wrap>
+            </Fade>
+            <Fade right>
             <Wrap>
                 <img src="/images/viewers-starwars.png"  alt=""/>
             </Wrap>
+            </Fade>
         </Container>
+      
     )
 }
 
