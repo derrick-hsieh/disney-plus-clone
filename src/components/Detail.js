@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from 'react'
+import {useDispatch, useSelector} from 'react-redux'
 import styled from 'styled-components';
-import  { Link,useParams, useLocation, Outlet } from 'react-router-dom';
+
+import  { Link,useParams, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import instance from '../adaxios';
 import requests from '../requests';
 import Youtube from 'react-youtube'; 
 import movieTrailer from 'movie-trailer';
+import { setMovies }from '../movie-slice/movieSlice'
+import {selectMovies} from '../movie-slice/movieSlice'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 
 function Detail({ }) {
-    const { id, path, title } = useParams();
+    const dispatch = useDispatch()
+    let watchList = useSelector(selectMovies);
 
+
+    const { id, path, title } = useParams();
+    const navigate = useNavigate();
     const base_url = "https://image.tmdb.org/t/p/original/"
     const [movies, getMovies] = useState([])
     const [trailerUrl, setTrailerUrl] = useState("")
@@ -59,11 +68,17 @@ function Detail({ }) {
             
         }
         fetchData();
+        async function fetchWatchListMovie(){
+           watchList.map(movie=>
+                getMovies(movie)
+            )
+        }   
+        fetchWatchListMovie();
         console.log(title)
-
-
-
+        console.log(movies)
+        console.log(id)
     },[requests])
+
     const handleClick=(movies)=>{
         console.log(movies)
         if(trailerUrl){
@@ -80,6 +95,7 @@ function Detail({ }) {
         }
     }
     const location = useLocation();
+
     const opts= {
         height:"390",
         width:"100%",
@@ -89,6 +105,16 @@ function Detail({ }) {
         },
      
         }
+  
+    
+    const addToList=(movie)=>{
+        if( watchList.find(v=>v.id == id)){
+           return
+        }else{
+            watchList=[...watchList,movie]
+            dispatch(setMovies(watchList))
+        }     
+    }
 
  
 
@@ -97,8 +123,11 @@ function Detail({ }) {
             <Background>
                 <img src={`${base_url}${path}`} />
             </Background>
+            <ArrowBack>
+            <ArrowBackIcon fontSize="large" onClick={()=>navigate(-1)}/>
+            </ArrowBack>
             <ImageTitle>
-                <h1>{movies.name || movies.original_title}</h1>
+                <h1>{movies.name || movies.original_title }</h1>
             </ImageTitle>
             <Controls>
                 <TrailerButton onClick={()=>handleClick(movies)}>
@@ -114,7 +143,7 @@ function Detail({ }) {
                 </Link>
                 <Outlet />
                
-                <AddButton>
+                <AddButton onClick={()=>addToList(movies)}>
                     <span>+</span>
                 </AddButton>
                 <GroupWatchButton>
@@ -193,6 +222,7 @@ const AddButton = styled.button`
         font-size:30px;
         color:white
     }
+    cursor:pointer;
 `
 const GroupWatchButton = styled(AddButton)`
 background:rgba(0, 0, 0);
@@ -209,4 +239,8 @@ const Description = styled.div`
     margin-top:16px;
     max-width:650px;
     color:rgb(249, 249, 249);
+`
+const ArrowBack = styled.div`
+display:flex;
+padding-top:10px;
 `

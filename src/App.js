@@ -16,6 +16,7 @@ import Detail from './components/Detail';
 import Login from './components/Login';
 import Navbar from './components/Navbar';
 import PlayModal from './components/modal/playModal';
+import MovieList from './components/MovieList';
 
 
 function App() {
@@ -31,6 +32,7 @@ const background = location.state && location.state.background
           <Route   path="/detail/:id/:title/:path" element ={ <Detail/>}>
             <Route path="/detail/:id/:title/:path/modal" element={<PlayModal/>} />
           </Route>
+          <Route path="/movielist" element = {<MovieList/>} />
           <Route   path="/" element ={  <Home/>}/>
         </Routes>
         {background && (

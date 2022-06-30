@@ -1,54 +1,57 @@
 import React, { Component, useState } from 'react'
 import styled from 'styled-components';
+import { Link, useParams, useLocation, Outlet } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 
-function  Header({}) {
-   const [burgerState, setBurgerstate] = useState(false)
+function Header({ }) {
+    const [burgerState, setBurgerstate] = useState(false)
 
-        return (
-            <Nav>
-                <Logo src="/images/logo.svg"/>
-                <NavMenu>
-                    <a>
-                        <img src="/images/home-icon.svg"/>
+    return (
+        <Nav>
+            <Logo src="/images/logo.svg" />
+            <NavMenu>
+                <Link to="/">
+                        <img src="/images/home-icon.svg" />
                         <span>HOME</span>
-                    </a>
-                    <a>
-                        <img src="/images/search-icon.svg"/>
-                        <span>SEARCH</span>
-                    </a>
-                    <a>
-                        <img src="/images/watchlist-icon.svg"/>
-                        <span>WATCHLIST</span>
-                    </a>
-                    <a>
-                        <img src="/images/originals-icon.svg"/>
-                        <span>ORIGINALS</span>
-                    </a>
-                    <a>
-                        <img src="/images/movie-icon.svg"/>
-                        <span>MOVIES</span>
-                    </a>
-                    <a>
-                        <img src="/images/series-icon.svg"/>
-                        <span>SERIES</span>
-                    </a>
-                </NavMenu>
-                <RightMenu>
-                    {/* <UserImg src="/images/profile.jpg"/> */}
-                    <CustomMenu onClick={()=>setBurgerstate(true)}/>
-                </RightMenu>
-                <BurgerNav show={burgerState}>
-                    <CloseWrapper>
-                        <CustomClose onClick={()=>setBurgerstate(false)}/>
-                    </CloseWrapper>
-                    <li><a href="#">asd</a></li>
+                </Link>
+                <a>
+                    <img src="/images/search-icon.svg" />
+                    <span>SEARCH</span>
+                </a>
+                <a>
+                    <img src="/images/watchlist-icon.svg" />
+                    <span>WATCHLIST</span>
+                </a>
+                <a>
+                    <img src="/images/originals-icon.svg" />
+                    <span>ORIGINALS</span>
+                </a>
+                <a>
+                    <img src="/images/movie-icon.svg" />
+                    <span>MOVIES</span>
+                </a>
+                <a>
+                    <img src="/images/series-icon.svg" />
+                    <span>SERIES</span>
+                </a>
+            </NavMenu>
+            <RightMenu>
+                {/* <UserImg src="/images/profile.jpg"/> */}
+                <CustomMenu onClick={() => setBurgerstate(true)} />
+            </RightMenu>
+            <BurgerNav show={burgerState}>
+                <CloseWrapper>
+                    <CustomClose onClick={() => setBurgerstate(false)} />
+                </CloseWrapper>
+                <Link to="/movielist">
+                    <li>Watchlist</li>
+                </Link>              
 
-                </BurgerNav>
-                
-            </Nav>
-        )
+            </BurgerNav>
+
+        </Nav>
+    )
 }
 export default Header
 const Nav = styled.div`
@@ -73,6 +76,8 @@ align-items:enter;
     cursor:pointer;
     align-items:center;
     padding:0 12px;
+    color:white;
+    text-decoration:none;
     img{
         height:20px;
     }
@@ -140,7 +145,7 @@ const BurgerNav = styled.div`
         text-decoration:none;
         color:white;
     }
-    transform:${props=> props.show? 'translateX(0)' : 'translateX(100%)'};
+    transform:${props => props.show ? 'translateX(0)' : 'translateX(100%)'};
     transition:transform 0.2s ease-in-out 
 
 `

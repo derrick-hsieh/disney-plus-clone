@@ -16,6 +16,7 @@ function Movies({title, fetchUrl}) {
         }
         fetchData();
     },[fetchUrl])
+    // console.log(movies)
     return (
         
         <Contaienr>
