@@ -2,21 +2,29 @@ import React from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import styled from 'styled-components'
 import { selectMovies } from '../movie-slice/movieSlice'
-import  { Link } from 'react-router-dom';
+import  { Link, useLocation } from 'react-router-dom';
 function MovieList() {
     const base_url = "https://image.tmdb.org/t/p/original"
   const watchList = useSelector(selectMovies)
+
   console.log(watchList)
  
     return (
         <Container>
             <Content>
-             
                 {
                     watchList.map(movie=>(
-                        <Link  key={movie.id}  to={`/detail/${movie.id}/${movie.name}${movie.poster_path}`}>
+                        <Link  key={movie.name}  
+                        to={{pathname:`/detail/${movie.id}`}}
+                        state={{
+                            id:`${movie.id}`,
+                            name:`${movie.name}`,
+                            image:`${movie.image}`,
+                            description:`${movie.overview}`
+                        }}
+                        >
                             <Wrap key={movie.id}>
-                                <img src={`${base_url}${movie.poster_path}`} alt={movie.name}/>
+                                <img src={`${base_url}${movie.image}`} alt={movie.name}/>
                             </Wrap>
                         </Link>
                     ))
@@ -49,7 +57,7 @@ const Content = styled.div`
     display:grid;
     grid-gap:25px;
     grid-template-columns: repeat(5,minmax(0,1fr));`
-    const Wrap = styled.div`
+const Wrap = styled.div`
 height:90%;
 border-radius:10px;
 cursor:pointer;

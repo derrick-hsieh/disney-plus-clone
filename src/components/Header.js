@@ -27,14 +27,7 @@ function Header({ }) {
                     <img src="/images/originals-icon.svg" />
                     <span>ORIGINALS</span>
                 </a>
-                <a>
-                    <img src="/images/movie-icon.svg" />
-                    <span>MOVIES</span>
-                </a>
-                <a>
-                    <img src="/images/series-icon.svg" />
-                    <span>SERIES</span>
-                </a>
+               
             </NavMenu>
             <RightMenu>
                 {/* <UserImg src="/images/profile.jpg"/> */}
@@ -44,7 +37,13 @@ function Header({ }) {
                 <CloseWrapper>
                     <CustomClose onClick={() => setBurgerstate(false)} />
                 </CloseWrapper>
-                <Link to="/movielist">
+                <Link to="/" onClick={()=> setBurgerstate(false)}>
+                    <li>Home</li>
+                </Link>    
+                <Link to="/search" onClick={()=> setBurgerstate(false)}>
+                    <li>Search</li>
+                </Link>  
+                <Link to="/movielist" onClick={()=> setBurgerstate(false)}>
                     <li>Watchlist</li>
                 </Link>              
 

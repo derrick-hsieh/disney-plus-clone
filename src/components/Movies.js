@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components';
 import instance from '../adaxios';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Fade from 'react-reveal/Fade';
 
 
 function Movies({title, fetchUrl}) {
+    // let location = useLocation();
+    console.log()
     const base_url = "https://image.tmdb.org/t/p/original"
     const [movies, getMovies] = useState([])
     useEffect(()=>{
@@ -26,7 +28,15 @@ function Movies({title, fetchUrl}) {
             <Fade bottom>
             <Content>
                 {movies.map(movie=>(
-                    <Link  key={movie.id}  to={`/detail/${movie.id}/${title}${movie.poster_path}`}>
+                    <Link  key={movie.id}  
+                    to={{pathname:`detail/${movie.id}`}}
+                    state={{
+                        id:`${movie.id}`,
+                        name:`${movie.name}`,
+                        image:`${movie.poster_path}`,
+                        description:`${movie.overview}`
+                    }}
+                    >
                     <Wrap key={movie.id}>
                          <img  src={`${base_url}${movie.poster_path}`} alt={movie.name}/>
                     </Wrap>

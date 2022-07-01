@@ -37,7 +37,15 @@ function ImgSlider({ fetchUrl, title }) {
     return (
         <Carousel {...settings}>
             {movies.map(movie => (
-                <Link key={movie.id} to={`/detail/${movie.id}/${title}${movie.poster_path}`}>
+                <Link key={movie.id}
+                to={{pathname:`/detail/${movie.id}`}}
+                state={{
+                    id:`${movie.id}`,
+                    name:`${movie.name}`,
+                    image:`${movie.poster_path}`,
+                    description:`${movie.overview}`
+                }}
+                >
                     <Wrap>
                         <img src={`${base_url}${movie.poster_path}`} alt={movie.name}></img>
                     </Wrap>

@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import styled from 'styled-components';
-
 import  { Link,useParams, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import instance from '../adaxios';
 import requests from '../requests';
-import Youtube from 'react-youtube'; 
-import movieTrailer from 'movie-trailer';
 import { setMovies }from '../movie-slice/movieSlice'
 import {selectMovies} from '../movie-slice/movieSlice'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -14,98 +11,28 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 function Detail({ }) {
     const dispatch = useDispatch()
+    const location = useLocation();
     let watchList = useSelector(selectMovies);
-
-
-    const { id, path, title } = useParams();
+    const { id } = useParams();
     const navigate = useNavigate();
     const base_url = "https://image.tmdb.org/t/p/original/"
     const [movies, getMovies] = useState([])
-    const [trailerUrl, setTrailerUrl] = useState("")
+
     useEffect(() => {
-        async function fetchData() {
-            if (title === 'Originals') {
-                const request = await instance.get(requests.fetchNetflixOriginals);
-                let movieData = request.data.results.filter((movie => movie.id == id))
-                getMovies(movieData[0])
-                return request
-            } else if (title === 'Trending') {
-                const request = await instance.get(requests.fetchTrending);
-                let movieData = request.data.results.filter((movie => movie.id == id))
-                getMovies(movieData[0])
-                return request
-            }else if (title === 'Top Rated') {
-                const request = await instance.get(requests.fetchTopRated);
-                let movieData = request.data.results.filter((movie => movie.id == id))
-                getMovies(movieData[0])
-                return request
-            }else if (title === 'Action Movies') {
-                const request = await instance.get(requests.fetchActionMovies);
-                let movieData = request.data.results.filter((movie => movie.id == id))
-                getMovies(movieData[0])
-                return request
-            }else if (title === 'Comedy Movies') {
-                const request = await instance.get(requests.fetchComedyMovies);
-                let movieData = request.data.results.filter((movie => movie.id == id))
-                getMovies(movieData[0])
-                return request
-            }else if (title === 'Horror Movies') {
-                const request = await instance.get(requests.fetchHorrorMovies);
-                let movieData = request.data.results.filter((movie => movie.id == id))
-                getMovies(movieData[0])
-                return request
-            }else if (title === 'Romance Movies') {
-                const request = await instance.get(requests.fetchRomanceMovies);
-                let movieData = request.data.results.filter((movie => movie.id == id))
-                getMovies(movieData[0])
-                return request
-            }else if (title === 'Documentaries') {
-                const request = await instance.get(requests.fetchDocumentaries);
-                let movieData = request.data.results.filter((movie => movie.id == id))
-                getMovies(movieData[0])
-                return request
-            }
-            
+        async function getDetail(){
+           getMovies(location.state)
         }
-        fetchData();
         async function fetchWatchListMovie(){
            watchList.map(movie=>
                 getMovies(movie)
             )
-        }   
-        fetchWatchListMovie();
-        console.log(title)
-        console.log(movies)
+        }  
+        fetchWatchListMovie(); 
+        getDetail();
+        
+        console.log(location)
         console.log(id)
-    },[requests])
-
-    const handleClick=(movies)=>{
-        console.log(movies)
-        if(trailerUrl){
-            
-            setTrailerUrl('');
-        }else {
-            movieTrailer(movies?.name || "").then((url)=>{
-                console.log(url)
-                const urlParams = new URLSearchParams(new URL(url).search);
-                console.log(urlParams)
-                console.log(url)
-                setTrailerUrl(urlParams.get("v"))
-            }).catch(error => console.log(error))
-        }
-    }
-    const location = useLocation();
-
-    const opts= {
-        height:"390",
-        width:"100%",
-        autoplay:1,
-        playerVars:{
-            autoplay:1,
-        },
-     
-        }
-  
+    },[])
     
     const addToList=(movie)=>{
         if( watchList.find(v=>v.id == id)){
@@ -121,20 +48,16 @@ function Detail({ }) {
     return (
         <Container>
             <Background>
-                <img src={`${base_url}${path}`} />
+                <img src={`${base_url}${movies.image}`} />
             </Background>
             <ArrowBack>
-            <ArrowBackIcon fontSize="large" onClick={()=>navigate(-1)}/>
+                <ArrowBackIcon fontSize="large" onClick={()=>navigate(-1)}/>
             </ArrowBack>
             <ImageTitle>
                 <h1>{movies.name || movies.original_title }</h1>
             </ImageTitle>
             <Controls>
-                <TrailerButton onClick={()=>handleClick(movies)}>
-                    <img src="/images/play-icon-black.png" />
-                    <span>Trailer</span>
-                </TrailerButton>
-                <Link to={`/detail/${movies.id}/${title}${movies.poster_path}/modal`}
+                <Link to={`detail/${movies.id}/modal`}
                 state={{background:location}}>
                     <PlayButton  >
                         <img src="/images/play-icon-white.png" />
@@ -151,8 +74,7 @@ function Detail({ }) {
                 </GroupWatchButton>
             </Controls>
             <Description>
-                {movies.overview}
-                {trailerUrl && <Youtube videoId={trailerUrl} opts={opts}/>}
+                {movies.description}
             </Description>
         </Container>
     )

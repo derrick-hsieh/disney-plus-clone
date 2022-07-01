@@ -17,6 +17,7 @@ import Login from './components/Login';
 import Navbar from './components/Navbar';
 import PlayModal from './components/modal/playModal';
 import MovieList from './components/MovieList';
+import Search from './components/Search';
 
 
 function App() {
@@ -29,15 +30,16 @@ const background = location.state && location.state.background
         <Header/>
         <Routes location = {background || location}>
           <Route   path="/login" element ={  <Login/>}/>
-          <Route   path="/detail/:id/:title/:path" element ={ <Detail/>}>
-            <Route path="/detail/:id/:title/:path/modal" element={<PlayModal/>} />
+          <Route   path="/detail/:id" element ={ <Detail/>}>
+            <Route path="/detail/:id/modal" element={<PlayModal/>} />
           </Route>
           <Route path="/movielist" element = {<MovieList/>} />
           <Route   path="/" element ={  <Home/>}/>
+          <Route   path="/search" element ={  <Search/>}/>
         </Routes>
         {background && (
             <Routes>
-              <Route path="/detail/:id/:title/:path/modal" element={<PlayModal/>} />
+              <Route path="/detail/:id/modal" element={<PlayModal/>} />
             </Routes>
         )}
       
