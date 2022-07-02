@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { Component, useState, useEffect } from 'react'
 import styled from 'styled-components';
 import { Link, useParams, useLocation, Outlet } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -6,27 +6,36 @@ import CloseIcon from '@mui/icons-material/Close';
 
 function Header({ }) {
     const [burgerState, setBurgerstate] = useState(false)
-
+    const [show, handleShow] = useState(false)
+    useEffect(() => {
+        window.addEventListener("scroll", ()=>{
+            if(window.scrollY>100){
+                handleShow(true);
+            }else{
+                handleShow(false)
+            }
+        });
+        return ()=>{
+            window.removeEventListener("scroll", null);
+        }
+     }, [])
     return (
-        <Nav>
+        <Nav className={`${show && "nav-black"}`}>
             <Logo src="/images/logo.svg" />
             <NavMenu>
                 <Link to="/">
                         <img src="/images/home-icon.svg" />
                         <span>HOME</span>
                 </Link>
-                <a>
+                <Link to="/search">
                     <img src="/images/search-icon.svg" />
                     <span>SEARCH</span>
-                </a>
-                <a>
+                </Link>
+                <Link to="/movielist">
                     <img src="/images/watchlist-icon.svg" />
                     <span>WATCHLIST</span>
-                </a>
-                <a>
-                    <img src="/images/originals-icon.svg" />
-                    <span>ORIGINALS</span>
-                </a>
+                </Link>
+               
                
             </NavMenu>
             <RightMenu>
@@ -54,13 +63,23 @@ function Header({ }) {
 }
 export default Header
 const Nav = styled.div`
+
 height:70px;
+width:100%;
 background:#090b13;
 display:flex;
+
 justify-content:space-between;
 align-items:center;
 padding:0 36px;
 overflow-x:hidden;
+transition-timing-function:ease-in;
+transition:all 0.5s;
+&.nav-black{
+    background:#111 !important;
+    position:fixed;
+    z-index:3;
+}
 `
 const Logo = styled.img`
 width:80px;

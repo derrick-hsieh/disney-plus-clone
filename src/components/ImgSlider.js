@@ -57,7 +57,7 @@ function ImgSlider({ fetchUrl, title }) {
 
 }
 const Carousel = styled(Slider)`
-margin-top:70px;
+margin-top:20px;
 ul li button{
     &:before{
         font-size:10px;
@@ -84,6 +84,11 @@ border: 4px solid transparent;
     width:100%;
     height:100%;
     object-fit:cover;
+  
+    }
+    &:hover{
+        border: 4px solid white;
+        border-radius:6px;
     }
 `;
 export default ImgSlider
