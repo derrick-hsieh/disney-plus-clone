@@ -83,11 +83,12 @@ const Container = styled.main`
     }
 `
 const Content = styled.div`
+    padding:80px 30px 0 30px;
     display:grid;
     grid-gap:25px;
     grid-template-columns: repeat(5,minmax(0,1fr));`
 const Wrap = styled.div`
-height:90%;
+height:100%;
 border-radius:10px;
 cursor:pointer;
 box-shadow: 10px 10px 20px rgb(0 0 0 / 69%);
