@@ -20,7 +20,7 @@ function MovieList() {
                             id:`${movie.id}`,
                             name:`${movie.name}`,
                             image:`${movie.image}`,
-                            description:`${movie.overview}`
+                            description:`${movie.overview || movie.description}`
                         }}
                         >
                             <Wrap key={movie.id}>

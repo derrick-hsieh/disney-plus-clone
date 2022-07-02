@@ -9,26 +9,28 @@ import  { Link } from 'react-router-dom';
 function Search() {
     const base_url = "https://image.tmdb.org/t/p/original"
      const [movies, getMovies] = useState([])
+    
     useEffect(() => {
-        async function fetchData(){
-            const params = "s"
-            const request = await getAllMovies(params)
-            console.log(request)
-            getMovies(request.data.results)
-             
-         
-            return request
-        }
-        fetchData();
+       
+    
         
         
     }, [requests])
-    console.log(movies)
+
+    async function searchMovies(value){
+        const params = value
+        const request = await getAllMovies(params)
+        getMovies(request.data.results)
+        return request
+    }
     return (
         
         <Container>
             <Searchbar>
-                <input placeholder="Search by name"></input>
+                <input placeholder="Search by name"
+                type="text"
+                onChange={(e)=>searchMovies(e.target.value)}
+                ></input>
             </Searchbar>
             <Content>
                 {
@@ -37,10 +39,13 @@ function Search() {
                         key={movie.id} 
                         to={{
                             pathname:`/detail/${movie.id}`,
-                            state:{
-                                title:movie.title,
-                                path:movie.poster_path,
-                            }
+                        }}
+                        state={{
+                          
+                                name:`${movie.name || movie.original_title}`,
+                                image:`${movie.poster_path}`,
+                                description:`${movie.overview}`
+                           
                         }}
                         >
                      <Wrap >
