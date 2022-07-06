@@ -7,6 +7,8 @@ import requests from '../requests';
 import { setMovies }from '../movie-slice/movieSlice'
 import {selectMovies} from '../movie-slice/movieSlice'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+// import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CheckIcon from '@mui/icons-material/Check';
 
 
 function Detail({ }) {
@@ -17,15 +19,20 @@ function Detail({ }) {
     const navigate = useNavigate();
     const base_url = "https://image.tmdb.org/t/p/original/"
     const [movies, getMovies] = useState([])
+    const [showIcon, setShowIcon] = useState(false)
 
     useEffect(() => {
         async function getDetail(){
            getMovies(location.state)
+          
         }
         async function fetchWatchListMovie(){
            watchList.map(movie=>
                 getMovies(movie)
             )
+            if(watchList.find(v=>v.id == id)){
+                setShowIcon(true)
+            }
         }  
         fetchWatchListMovie(); 
         getDetail();
@@ -36,11 +43,19 @@ function Detail({ }) {
     
     const addToList=(movie)=>{
         if( watchList.find(v=>v.id == id)){
-           return
+            setShowIcon(!showIcon)
+            
+         const cancelList =  watchList.filter(v=> v.id !== id)
+        dispatch(setMovies(cancelList))
+           
         }else{
             watchList=[...watchList,movie]
             dispatch(setMovies(watchList))
-        }     
+            setShowIcon(true)
+        }
+        console.log(watchList)
+        
+           
     }
 
  
@@ -66,8 +81,9 @@ function Detail({ }) {
                 </Link>
                 <Outlet />
                
-                <AddButton onClick={()=>addToList(movies)}>
+                <AddButton className={`${showIcon && "addedIcon"}`} onClick={()=>addToList(movies)}>
                     <span>+</span>
+                    <CheckIcon fontSize="large" className="checkIcon" ></CheckIcon>
                 </AddButton>
                 <GroupWatchButton>
                     <img src="/images/group-icon.png" />
@@ -142,7 +158,20 @@ const AddButton = styled.button`
     background:rgba(0, 0, 0, 0.6);
     span{
         font-size:30px;
-        color:white
+        color:white;
+    }
+    .checkIcon{
+        display:none;
+    }
+    &.addedIcon{
+        background:white;
+        span{
+            display:none
+        }
+        .checkIcon{
+            color:green;
+            display:unset;
+        }
     }
     cursor:pointer;
 `

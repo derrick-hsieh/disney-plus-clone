@@ -9,20 +9,15 @@ import  { Link } from 'react-router-dom';
 function Search() {
     const base_url = "https://image.tmdb.org/t/p/original"
      const [movies, getMovies] = useState([])
-    
-    useEffect(() => {
-       
-    
-        
-        
-    }, [requests])
 
     async function searchMovies(value){
         const params = value
         const request = await getAllMovies(params)
         getMovies(request.data.results)
+        console.log(movies)
         return request
     }
+   
     return (
         
         <Container>
@@ -41,15 +36,13 @@ function Search() {
                             pathname:`/detail/${movie.id}`,
                         }}
                         state={{
-                          
                                 name:`${movie.name || movie.original_title}`,
                                 image:`${movie.poster_path}`,
                                 description:`${movie.overview}`
-                           
                         }}
                         >
                      <Wrap >
-                            <img src={`${base_url}${movie.poster_path}`}></img>
+                            <img src={`${base_url}${movie.poster_path  }`}></img>
                         </Wrap>
                     </Link>
                        

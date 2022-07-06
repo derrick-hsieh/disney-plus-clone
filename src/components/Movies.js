@@ -18,7 +18,7 @@ function Movies({title, fetchUrl}) {
         }
         fetchData();
     },[fetchUrl])
-    // console.log(movies)
+    console.log(movies)
     return (
         
         <Contaienr>
@@ -29,7 +29,7 @@ function Movies({title, fetchUrl}) {
             <Content>
                 {movies.map(movie=>(
                     <Link  key={movie.id}  
-                    to={{pathname:`detail/${movie.id}`}}
+                    to={{pathname:`/detail/${movie.id}`}}
                     state={{
                         id:`${movie.id}`,
                         name:`${movie.name}`,
