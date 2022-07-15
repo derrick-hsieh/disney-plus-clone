@@ -22,13 +22,11 @@ import Search from './components/Search';
 
 function App() {
   const location = useLocation();
-const background = location.state && location.state.background
+// const background = location.state && location.state.background
   return (
     <div className="App">
- 
-        {/* <Navbar/> */}
         <Header/>
-        <Routes location = {background || location}>
+        <Routes location = { location}>
           <Route   path="/login" element ={  <Login/>}/>
           <Route   path="/detail/:id" element ={ <Detail/>}>
             <Route path="/detail/:id/modal" element={<PlayModal/>} />
@@ -37,11 +35,11 @@ const background = location.state && location.state.background
           <Route   path="/" element ={  <Home/>}/>
           <Route   path="/search" element ={  <Search/>}/>
         </Routes>
-        {background && (
+        {/* {background && (
             <Routes>
               <Route path="/detail/:id/modal" element={<PlayModal/>} />
             </Routes>
-        )}
+        )} */}
       
 
      

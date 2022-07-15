@@ -7,8 +7,7 @@ import Fade from 'react-reveal/Fade';
 
 function Movies({title, fetchUrl}) {
     // let location = useLocation();
-    console.log()
-    const base_url = "https://image.tmdb.org/t/p/original"
+    const base_url = "https://image.tmdb.org/t/p/original/"
     const [movies, getMovies] = useState([])
     useEffect(()=>{
         async function fetchData(){
@@ -18,7 +17,6 @@ function Movies({title, fetchUrl}) {
         }
         fetchData();
     },[fetchUrl])
-    console.log(movies)
     return (
         
         <Contaienr>
@@ -29,10 +27,10 @@ function Movies({title, fetchUrl}) {
             <Content>
                 {movies.map(movie=>(
                     <Link  key={movie.id}  
-                    to={{pathname:`/detail/${movie.id}`}}
+                    to={{pathname:`detail/${movie.id}`}}
                     state={{
                         id:`${movie.id}`,
-                        name:`${movie.name}`,
+                        name:`${movie.name || movie.original_title || movie.title }`,
                         image:`${movie.poster_path}`,
                         description:`${movie.overview}`
                     }}
@@ -61,6 +59,12 @@ const Content = styled.div`
     display:grid;
     grid-gap:25px;
     grid-template-columns: repeat(5,minmax(0,1fr));
+    @media(max-width:900px){
+        grid-template-columns: repeat(4,minmax(0,1fr));
+    }
+    @media(max-width:500px){
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
 `
 const Wrap = styled.div`
 height:90%;

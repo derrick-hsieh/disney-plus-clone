@@ -44,7 +44,6 @@ function Detail({ }) {
     const addToList=(movie)=>{
         if( watchList.find(v=>v.id == id)){
             setShowIcon(!showIcon)
-            
          const cancelList =  watchList.filter(v=> v.id !== id)
         dispatch(setMovies(cancelList))
            
@@ -52,10 +51,7 @@ function Detail({ }) {
             watchList=[...watchList,movie]
             dispatch(setMovies(watchList))
             setShowIcon(true)
-        }
-        console.log(watchList)
-        
-           
+        }        
     }
 
  
@@ -69,16 +65,16 @@ function Detail({ }) {
                 <ArrowBackIcon fontSize="large" onClick={()=>navigate(-1)}/>
             </ArrowBack>
             <ImageTitle>
-                <h1>{movies.name || movies.original_title }</h1>
+                <h1>{movies.name }</h1>
             </ImageTitle>
             <Controls>
-                <Link to={`detail/${movies.id}/modal`}
-                state={{background:location}}>
+                {/* <Link to={`detail/${movies.id}/modal`} */}
+                {/* state={{background:location}} */}
                     <PlayButton  >
                         <img src="/images/play-icon-white.png" />
                         <span>PLAY</span>
                     </PlayButton>
-                </Link>
+                {/* </Link> */}
                 <Outlet />
                
                 <AddButton className={`${showIcon && "addedIcon"}`} onClick={()=>addToList(movies)}>
@@ -135,7 +131,6 @@ const TrailerButton = styled.button`
     background: rgb (249, 249, 249);
     border:none;
     letter-spacing:1.8px;
-    cursor:pointer;
     &:hover{
         background:rgb(198, 198, 198);
     }
@@ -145,6 +140,7 @@ const PlayButton = styled(TrailerButton)`
     border:1px solid rgb(249, 249, 249);
     color: rgb(249, 249, 249);
     text-transform:uppercase;
+
 `
 const AddButton = styled.button`
     border:1px solid white;
@@ -177,6 +173,7 @@ const AddButton = styled.button`
 `
 const GroupWatchButton = styled(AddButton)`
 background:rgba(0, 0, 0);
+cursor:unset;
 `
 const SubTitle = styled.div`
     color:white;

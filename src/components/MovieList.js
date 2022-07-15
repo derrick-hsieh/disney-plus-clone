@@ -7,7 +7,7 @@ function MovieList() {
     const base_url = "https://image.tmdb.org/t/p/original"
   const watchList = useSelector(selectMovies)
 
-  console.log(watchList)
+
  
     return (
         <Container>
@@ -56,7 +56,14 @@ const Container = styled.main`
 const Content = styled.div`
     display:grid;
     grid-gap:25px;
-    grid-template-columns: repeat(5,minmax(0,1fr));`
+    grid-template-columns: repeat(5,minmax(0,1fr));
+    @media(max-width:900px){
+        grid-template-columns: repeat(4,minmax(0,1fr));
+    }
+    @media(max-width:500px){
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+    `
 const Wrap = styled.div`
 height:90%;
 border-radius:10px;

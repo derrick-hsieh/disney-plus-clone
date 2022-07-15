@@ -7,14 +7,13 @@ import  { Link } from 'react-router-dom';
 
 
 function Search() {
-    const base_url = "https://image.tmdb.org/t/p/original"
+    const base_url = "https://image.tmdb.org/t/p/original/"
      const [movies, getMovies] = useState([])
 
     async function searchMovies(value){
         const params = value
         const request = await getAllMovies(params)
         getMovies(request.data.results)
-        console.log(movies)
         return request
     }
    
@@ -36,13 +35,14 @@ function Search() {
                             pathname:`/detail/${movie.id}`,
                         }}
                         state={{
-                                name:`${movie.name || movie.original_title}`,
+                             id:`${movie.id}`,
+                                name:`${movie.name || movie.original_title || movie.title}`,
                                 image:`${movie.poster_path}`,
                                 description:`${movie.overview}`
                         }}
                         >
                      <Wrap >
-                            <img src={`${base_url}${movie.poster_path  }`}></img>
+                            <img src={`${base_url}${movie.poster_path}`}></img>
                         </Wrap>
                     </Link>
                        
@@ -79,7 +79,14 @@ const Content = styled.div`
     padding:80px 30px 0 30px;
     display:grid;
     grid-gap:25px;
-    grid-template-columns: repeat(5,minmax(0,1fr));`
+    grid-template-columns: repeat(5,minmax(0,1fr));
+    @media(max-width:900px){
+        grid-template-columns: repeat(4,minmax(0,1fr));
+    }
+    @media(max-width:500px){
+        grid-template-columns: repeat(2,minmax(0,1fr));
+    }
+    `
 const Wrap = styled.div`
 height:100%;
 border-radius:10px;

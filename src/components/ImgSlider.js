@@ -19,7 +19,6 @@ function ImgSlider({ fetchUrl, title }) {
         }
 
         fetchData()
-        console.log(movies)
 
     }, [])
     let settings = {
