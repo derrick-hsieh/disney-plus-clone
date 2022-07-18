@@ -3,15 +3,24 @@ import {useDispatch, useSelector} from 'react-redux'
 import styled from 'styled-components'
 import { selectMovies } from '../movie-slice/movieSlice'
 import  { Link, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+import { useEffect } from 'react';
 function MovieList() {
     const base_url = "https://image.tmdb.org/t/p/original"
   const watchList = useSelector(selectMovies)
+
+  
 
 
  
     return (
         <Container>
+            {watchList.length === 0 ? <NoContent>
+                   <h1>You haven't added any movie </h1> 
+                </NoContent> : null
+            }
             <Content>
+               
                 {
                     watchList.map(movie=>(
                         <Link  key={movie.name}  
@@ -52,6 +61,14 @@ const Container = styled.main`
         bottom:0;
         z-index:-1;
     }
+`
+const NoContent = styled.div`
+padding: 30px calc(3.5vw + 5px);
+position:relative;
+        h1{
+            color:grey;
+            font-weight:bold;
+        }
 `
 const Content = styled.div`
     display:grid;
