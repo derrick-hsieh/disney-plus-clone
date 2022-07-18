@@ -44,9 +44,10 @@ function ImgSlider({ fetchUrl, title }) {
                     image:`${movie.poster_path}`,
                     description:`${movie.overview}`
                 }}
-                >
+                > 
                     <Wrap>
                         <img src={`${base_url}${movie.poster_path}`} alt={movie.name}></img>
+                        <Title><h1>{movie.name}</h1></Title>
                     </Wrap>
                 </Link>
                
@@ -73,7 +74,26 @@ li.slick-active button:before{
         z-index:1;
     }
 `;
+const Title = styled.div`
+position:absolute;
+color:white;
+font-weight:bold;
+text-shadow:10px 10px 20px rgb(0 0 0 / 115%);
+top:0;
+left:0;
+right:0;
+bottom:0;
+display:flex;
+justify-content:center;
+align-items:center;
+@media(min-width:900px){
+    h1{
+        font-size:45px;
+    }
+}
+`
 const Wrap = styled.div`
+position:relative;
 border: 4px solid transparent;
     height:35vh;
     width:100%;

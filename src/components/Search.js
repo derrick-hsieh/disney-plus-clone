@@ -11,10 +11,11 @@ function Search() {
      const [movies, getMovies] = useState([])
 
     async function searchMovies(value){
-        const params = value
-        const request = await getAllMovies(params)
-        getMovies(request.data.results)
-        return request
+        const params = value || "noInputInsearchBar"
+            const request = await getAllMovies(params)
+            getMovies(request.data.results.filter(v=>v.poster_path !== null))
+            return request
+        
     }
    
     return (
