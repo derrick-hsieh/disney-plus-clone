@@ -2,57 +2,71 @@ import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import instance from '../adaxios';
 import requests from '../requests';
-import { getAllMovies } from '../api-service/api';
-import  { Link } from 'react-router-dom';
+import { getAllMovies} from '../api-service/api';
+import { Link } from 'react-router-dom';
+import Fade from 'react-reveal/Fade';
 
 
 function Search() {
     const base_url = "https://image.tmdb.org/t/p/original/"
-     const [movies, getMovies] = useState([])
-
-    async function searchMovies(value){
-        const params = value || "noInputInsearchBar"
-            const request = await getAllMovies(params)
-            getMovies(request.data.results.filter(v=>v.poster_path !== null))
+    const [movies, getMovies] = useState([])
+    const [searchInput, getSearchInput]= useState("")
+    const [popularMovies, showPopularMovies] = useState([])
+    useEffect(() => {
+        async function popularMovies() {
+            const request = await instance.get(requests.searchPopularMovies)
+            showPopularMovies(request.data.results.filter(v => v.poster_path !== null))
             return request
-        
+        }
+        popularMovies();
+    }, [requests.searchPopularMovies])
+
+
+    async function searchMovies(value) {
+        const params =value || "noInputInsearchBar"
+        getSearchInput(params)
+        const request = await getAllMovies(params)
+        getMovies(request.data.results.filter(v => v.poster_path !== null))
+        return request
     }
-   
+
+
     return (
-        
+
         <Container>
             <Searchbar>
                 <input placeholder="Search by name"
-                type="text"
-                onChange={(e)=>searchMovies(e.target.value)}
+                    type="text"
+                    onChange={(e) => searchMovies(e.target.value)}
                 ></input>
             </Searchbar>
+            {searchInput? null : <Popular><h1>Popular Movies</h1></Popular>}
+            <Fade bottom>
             <Content>
-                {
-                    movies.map(movie=>(
-                    <Link 
-                        key={movie.id} 
-                        to={{
-                            pathname:`/detail/${movie.id}`,
-                        }}
-                        state={{
-                             id:`${movie.id}`,
-                                name:`${movie.name || movie.original_title || movie.title}`,
-                                image:`${movie.poster_path}`,
-                                description:`${movie.overview}`
-                        }}
+          
+                 {(searchInput? movies : popularMovies).map(movie => (
+                        <Link
+                            key={movie.id}
+                            to={{
+                                pathname: `/detail/${movie.id}`,
+                            }}
+                            state={{
+                                id: `${movie.id}`,
+                                name: `${movie.name || movie.original_title || movie.title}`,
+                                image: `${movie.poster_path}`,
+                                description: `${movie.overview}`
+                            }}
                         >
-                     <Wrap >
-                            <img src={`${base_url}${movie.poster_path}`}></img>
-                        </Wrap>
-                    </Link>
-                       
-                    )
-
-                    )
+                            <Wrap >
+                                <img src={`${base_url}${movie.poster_path}`}></img>
+                            </Wrap>
+                        </Link>
+                    ))
                 }
-            
+               
+
             </Content>
+            </Fade>
         </Container>
     )
 }
@@ -77,6 +91,7 @@ const Container = styled.main`
     }
 `
 const Content = styled.div`
+    position:relative;
     padding:80px 30px 0 30px;
     display:grid;
     grid-gap:25px;
@@ -88,6 +103,13 @@ const Content = styled.div`
         grid-template-columns: repeat(2,minmax(0,1fr));
     }
     `
+const Popular =styled.div`
+// position:absolute;
+// top:10px;
+// left:20px;
+padding:80px 30px 0px 30px;
+margin-bottom:-50px;
+`
 const Wrap = styled.div`
 height:100%;
 border-radius:10px;

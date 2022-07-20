@@ -10,12 +10,7 @@ const requests ={
     fetchRomanceMovies: `/discover/movie?api_key=${API_KEY}&with_genres=10749`,
     fetchDocumentaries: `/discover/movie?api_key=${API_KEY}&with_genres=99`,
     searchMovies: `/search/movie?api_key=${API_KEY}&language=en-US&query=`,
-    // searchMovies(query){
-    //     return `/search/movie?api_key=${API_KEY}&language=en-US&query=${query}&page=1&include_adult=false`
-
-    // },
-    // searchMovies: `/search/movie?api_key=${API_KEY}&language=en-US&query=${query}&page=1&include_adult=false`,
-
+    searchPopularMovies: `/movie/popular?api_key=${API_KEY}&language=en-US&page=1`
 }
 export const api_key = API_KEY
 export const request_url = requests
